@@ -255,23 +255,23 @@ func (b Board) ToStringNotation() string {
 		for x, val := range row {
 			stringNotation += strconv.Itoa(val)
 			if x != size-1 {
-				stringNotation += "/"
+				stringNotation += ","
 			}
 		}
 		if y != size-1 {
-			stringNotation += "//"
+			stringNotation += "/"
 		}
 	}
 
 	stringNotation += "#"
 
 	// Path Notation - if applicable
-	for i, direction := range b.Path {
+	for _, direction := range b.Path {
 		stringNotation += fmt.Sprintf("%s",
 			direction)
-		if i < len(b.Path)-1 {
-			stringNotation += "|"
-		}
+		// if i < len(b.Path)-1 {
+		// 	stringNotation += "|"
+		// }
 	}
 
 	stringNotation += "#"
@@ -291,11 +291,11 @@ func FromStringNotation(notation string) Board {
 	notations := strings.Split(notation, "#")
 
 	// Extract Board.Tiles
-	rows := strings.Split(notations[0], "//")
+	rows := strings.Split(notations[0], "/")
 	board.Tiles = make([][]int, len(rows))
 
 	for y, row := range rows {
-		vals := strings.Split(row, "/")
+		vals := strings.Split(row, ",")
 		board.Tiles[y] = make([]int, len(vals))
 
 		for x, val := range vals {
@@ -318,7 +318,7 @@ func FromStringNotation(notation string) Board {
 
 	// Extract Path - if applicable
 	if notations[1] != "" {
-		board.Path = strings.Split(notations[1], "|")
+		board.Path = strings.Split(notations[1], "")
 		// moves := strings.Split(notations[1], "|")
 		// for _, move := range moves {
 		// 	coords := strings.Split(move, ",")

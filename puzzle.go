@@ -65,6 +65,8 @@ func NewPuzzle(size int) Puzzle {
 	// 		{7, 8, 0}}},
 	// 	Size: size,
 	// }
+
+	// 15 moves
 	puzzle := Puzzle{
 		StartBoard: Board{Tiles: [][]int{
 			{5, 1, 7, 3},

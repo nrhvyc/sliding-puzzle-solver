@@ -56,7 +56,7 @@ func TestBoard_Move(t *testing.T) {
 					{4, 5, 0},
 					{7, 8, 6}},
 				Path:         []string{"R"},
-				PreviousMove: "",
+				PreviousMove: "R",
 			},
 		}, {
 			name: "center move down",
@@ -73,7 +73,7 @@ func TestBoard_Move(t *testing.T) {
 					{4, 8, 5},
 					{7, 0, 6}},
 				Path:         []string{"D"},
-				PreviousMove: "",
+				PreviousMove: "D",
 			},
 		},
 	}

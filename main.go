@@ -17,7 +17,6 @@ func main() {
 	puzzle := NewPuzzle(int(size))
 	fmt.Println(puzzle.StartBoard.ToStringNotation())
 
-	// visitedBoards := make(map[string]bool)
 	pq := make(PriorityQueue, 1)
 	firstPriority := puzzle.StartBoard.TotalScore(puzzle.GoalBoard.Tiles)
 	node := &Node{
@@ -57,19 +56,10 @@ func search(pq PriorityQueue, puzzle Puzzle, threshold int) int {
 		time.Sleep(time.Second * 1 / 10)
 
 		node := heap.Pop(&pq).(*Node)
-		// fmt.Printf("%.2d:%s \n", node.priority, node.value)
 		board := FromStringNotation(node.value)
-		// fmt.Println("")
-		// for pq.Len() > 0 {
-		// 	node := heap.Pop(&pq).(*Node)
-		// 	fmt.Printf("%.2d:%s \n", node.priority, node.value)
-		// }
-		// return 0
 
 		// Debug output
 		fmt.Println()
-		// board.PrintWithGoal(puzzle.GoalBoard)
-		// fmt.Printf("Node{priority:%.2d,value:%s}\n", node.priority, node.value)
 		fmt.Printf("PriorityQueue size: %d  Path length: %d Path%v\n",
 			pq.Len(), len(board.Path), board.Path)
 
@@ -83,18 +73,16 @@ func search(pq PriorityQueue, puzzle Puzzle, threshold int) int {
 			fmt.Println("Goal!!!")
 			return 0
 		}
-		// var test []string
+
 		for _, move := range board.PossibleMoves() {
 			// Optimization to prevent queueing unnecessary nodes
 			if board.PreviousMove == OppositeDirection(move.direction) && board.PreviousMove != "" {
 				continue
 			}
 
-			// fmt.Printf("before move: %s OpenPosition: %v\n", move.direction, board.OpenPosition())
 			newBoard := board.Move(move)
 			totalScore := newBoard.TotalScore(puzzle.GoalBoard.Tiles)
-			// fmt.Printf("after move: %s totalScore: %d OpenPosition: %v\n", move.direction, totalScore, newBoard.OpenPosition())
-			// newBoard.Print()
+
 			// Don't explore moves that are above the cost threshold
 			if totalScore > threshold {
 				if totalScore < minThreshold {
@@ -107,18 +95,7 @@ func search(pq PriorityQueue, puzzle Puzzle, threshold int) int {
 				value:    newBoard.ToStringNotation(),
 				priority: totalScore,
 			})
-			// test = append(test, newBoard.ToStringNotation())
 		}
-		// return 0
-		// if threshold > 2 {
-		// 	fmt.Println("")
-		// 	for pq.Len() > 0 {
-		// 		node := heap.Pop(&pq).(*Node)
-		// 		fmt.Printf("%.2d:%s \n", node.priority, node.value)
-		// 		fmt.Println(test)
-		// 	}
-		// 	return 0
-		// }
 	}
 	return minThreshold
 }

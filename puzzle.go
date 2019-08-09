@@ -28,6 +28,41 @@ func (p Puzzle) Print() {
 	}
 }
 
+// IsSolvable Puzzle
+/*
+1. If the grid width is odd,
+	then the number of inversions for solvable is even.
+2. If the grid width is even,
+	and the blank is on an even row counting from the bottom
+	(second-last, fourth-last etc)
+	then the number of inversions for solvable is odd.
+3. If the grid width is even,
+	and the blank is on an odd row counting from the bottom
+	(last, third-last, fifth-last etc)
+	then the number of inversions for solvable is even.
+*/
+func (p Puzzle) IsSolvable() bool {
+	startInversions := p.StartBoard.InversionCount()
+	size := len(p.StartBoard.Tiles[0])
+	if size%2 == 1 && startInversions%2 == 0 {
+		return true
+	}
+	if size%2 == 0 {
+		openPos := p.StartBoard.OpenPosition()
+		y := openPos.y + 1
+		fmt.Println(openPos)
+		fmt.Println(startInversions)
+
+		if (size-y)%2 == 1 && startInversions%2 == 1 {
+			return true
+		}
+		if (size-y)%2 == 0 && startInversions%2 == 0 {
+			return true
+		}
+	}
+	return false
+}
+
 //NewPuzzle ...
 func NewPuzzle(size int) Puzzle {
 	// puzzle := Puzzle{
@@ -81,6 +116,23 @@ func NewPuzzle(size int) Puzzle {
 			{13, 14, 15, 0}}},
 		Size: size,
 	}
+
+	// 26 inversions, solvable
+	// inversions: 4 + 0 + 4 + 1  +  4 + 0 + 4 + 0  + 4 + 0 + 4 + 0  +  0 + 0 + 1 + 0
+	// puzzle := Puzzle{
+	// 	StartBoard: Board{Tiles: [][]int{
+	// 		{5, 1, 7, 3},
+	// 		{9, 2, 11, 4},
+	// 		{13, 6, 15, 8},
+	// 		{0, 10, 14, 12}},
+	// 		PreviousMove: ""},
+	// 	GoalBoard: Board{Tiles: [][]int{
+	// 		{1, 2, 3, 4},
+	// 		{5, 6, 7, 8},
+	// 		{9, 10, 11, 12},
+	// 		{13, 14, 15, 0}}},
+	// 	Size: size,
+	// }
 
 	// Optimal move count 9		LURDLLDRR
 	// puzzle := Puzzle{
@@ -160,5 +212,10 @@ func NewPuzzle(size int) Puzzle {
 	// 		{1, 3}}},
 	// 	Size: size,
 	// }
+
+	if puzzle.IsSolvable() == false {
+		panic("Puzzle provided is not solvable")
+	}
+
 	return puzzle
 }

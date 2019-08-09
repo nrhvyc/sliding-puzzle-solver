@@ -123,18 +123,29 @@ func NewRandomBoard(size int) Board {
 	return board
 }
 
-// InversionCount - # of inversions for Tiles
-// func (b Board) InversionCount() (count int) {
-// 	for _, row := range b.Tiles {
-// 		for i, tile := range row {
-// 			for j, otherTile := range row {
+func flatten2DInt(arr [][]int) []int {
+	var flattened []int
+	for _, row := range arr {
+		for _, val := range row {
+			flattened = append(flattened, val)
+		}
+	}
+	return flattened
+}
 
-// 			}
-// 			if b.Tiles[y]
-// 		}
-// 	}
-// 	return count
-// }
+// InversionCount - # of inversions for Tiles
+func (b Board) InversionCount() (count int) {
+	tiles := flatten2DInt(b.Tiles) // convert board to 1d slice
+
+	for i := 0; i < len(tiles)-1; i++ {
+		for nextNum := i + 1; nextNum < len(tiles); nextNum++ {
+			if tiles[nextNum] < tiles[i] && tiles[i] != 0 && tiles[nextNum] != 0 {
+				count++
+			}
+		}
+	}
+	return count
+}
 
 // Print Board
 func (b Board) Print() {
@@ -267,19 +278,11 @@ func (b Board) ToStringNotation() string {
 
 	// Path Notation - if applicable
 	for _, direction := range b.Path {
-		stringNotation += fmt.Sprintf("%s",
-			direction)
-		// if i < len(b.Path)-1 {
-		// 	stringNotation += "|"
-		// }
+		stringNotation += direction
 	}
 
 	stringNotation += "#"
 
-	// PreviousOpenTile
-	// stringNotation += fmt.Sprintf("%d,%d",
-	// 	b.PreviousOpenTile.x,
-	// 	b.PreviousOpenTile.y)
 	stringNotation += b.PreviousMove
 
 	return stringNotation
@@ -307,32 +310,8 @@ func FromStringNotation(notation string) Board {
 		}
 	}
 
-	// parse string coordinate into int
-	// parse := func(coord string) int {
-	// 	val, err := strconv.ParseInt(coord, 10, 64)
-	// 	if err != nil {
-	// 		fmt.Println(err)
-	// 	}
-	// 	return int(val)
-	// }
-
 	// Extract Path - if applicable
-	if notations[1] != "" {
-		board.Path = strings.Split(notations[1], "")
-		// moves := strings.Split(notations[1], "|")
-		// for _, move := range moves {
-		// 	coords := strings.Split(move, ",")
-
-		// 	board.Path = append(board.Path, Move{
-		// 		from: Position{
-		// 			x: parse(coords[0]),
-		// 			y: parse(coords[1])},
-		// 		to: Position{
-		// 			x: parse(coords[2]),
-		// 			y: parse(coords[3])},
-		// 	})
-		// }
-	}
+	board.Path = strings.Split(notations[1], "")
 
 	// Extract PreviousMove - if applicable
 	board.PreviousMove = notations[2]
@@ -397,7 +376,7 @@ func (b Board) HeuristicScore(goal [][]int) int {
 // f(n) = g(n) + h(n)
 func (b Board) TotalScore(goal [][]int) int {
 	h := b.HeuristicScore(goal)
-	// fmt.Printf("%d + %d\n", pathLength, h)
-	// time.Sleep(time.Second * 1)
+	// fmt.Printf("len(b.Path) = %d\n", len(b.Path))
+	// time.Sleep(time.Second * 1 / 20)
 	return len(b.Path) + h
 }

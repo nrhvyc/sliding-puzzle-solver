@@ -254,7 +254,7 @@ func (b Board) PossibleMoves() []Move {
 			direction: "D",
 		})
 	}
-	fmt.Println(moves)
+	// fmt.Println(moves)
 	return moves
 }
 
@@ -331,7 +331,7 @@ func (b Board) ManhattanDistance(goal [][]int) int {
 				continue
 			}
 			goalTilePos := b.PositionForTile(tile)
-			distance += math.Abs(float64(y-goalTilePos.x)) + math.Abs(float64(x-goalTilePos.y))
+			distance += math.Abs(float64(x-goalTilePos.x)) + math.Abs(float64(y-goalTilePos.y))
 		}
 	}
 	return int(distance)
@@ -367,9 +367,19 @@ func (b Board) HammingDistance(goal [][]int) (misplacedCount int) {
 
 // HeuristicScore is the overall he
 func (b Board) HeuristicScore(goal [][]int) int {
-	// return b.ManhattanDistance(goal) + b.HammingDistance(goal)
-	return b.HammingDistance(goal)
-	// return 1
+	heuristics := []int{
+		b.ManhattanDistance(goal),
+		b.HammingDistance(goal),
+	}
+
+	var maxHeuristic int
+	for _, heuristic := range heuristics {
+		if heuristic > maxHeuristic {
+			maxHeuristic = heuristic
+		}
+	}
+
+	return maxHeuristic
 }
 
 // TotalScore - lower values are more important

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"strconv"
-	"time"
 )
 
 func main() {
@@ -17,18 +16,17 @@ func main() {
 	puzzle := NewPuzzle(int(size))
 	fmt.Println(puzzle.StartBoard.ToStringNotation())
 
-	pq := make(PriorityQueue, 1)
 	firstPriority := puzzle.StartBoard.TotalScore(puzzle.GoalBoard.Tiles)
 	node := &Node{
 		value:    puzzle.StartBoard.ToStringNotation(),
 		priority: firstPriority,
 	}
 
-	pq[0] = node
-	heap.Init(&pq)
-
 	threshold := firstPriority
 	for threshold != 0 {
+		pq := make(PriorityQueue, 1)
+		pq[0] = node
+		heap.Init(&pq)
 		fmt.Printf("Searching to threshold: %d...\n", threshold)
 		threshold = search(pq, puzzle, threshold)
 	}
@@ -53,15 +51,15 @@ func search(pq PriorityQueue, puzzle Puzzle, threshold int) int {
 	}
 
 	for pq.Len() > 0 {
-		time.Sleep(time.Second * 1 / 10)
+		// time.Sleep(time.Second * 1 / 10)
 
 		node := heap.Pop(&pq).(*Node)
 		board := FromStringNotation(node.value)
 
 		// Debug output
-		fmt.Println()
-		fmt.Printf("PriorityQueue size: %d  Path length: %d Path%v\n",
-			pq.Len(), len(board.Path), board.Path)
+		// fmt.Println()
+		// fmt.Printf("PriorityQueue size: %d  Path length: %d Path%v\n",
+		// 	pq.Len(), len(board.Path), board.Path)
 
 		if board.IsComplete(puzzle.GoalBoard) {
 			fmt.Println()

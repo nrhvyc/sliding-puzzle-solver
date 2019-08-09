@@ -73,18 +73,18 @@ func NewPuzzle(size int) Puzzle {
 
 	// Optimal move count 30
 	// ULLURDDRUULDDLUURDDRUULDDLURRD or ULULDDRUULDDRUURDDLUURDLULDRDR
-	// puzzle := Puzzle{
-	// 	StartBoard: Board{Tiles: [][]int{
-	// 		{8, 7, 6},
-	// 		{5, 4, 3},
-	// 		{2, 1, 0}},
-	// 		PreviousMove: ""},
-	// 	GoalBoard: Board{Tiles: [][]int{
-	// 		{1, 2, 3},
-	// 		{4, 5, 6},
-	// 		{7, 8, 0}}},
-	// 	Size: size,
-	// }
+	puzzle := Puzzle{
+		StartBoard: Board{Tiles: [][]int{
+			{8, 7, 6},
+			{5, 4, 3},
+			{2, 1, 0}},
+			PreviousMove: ""},
+		GoalBoard: Board{Tiles: [][]int{
+			{1, 2, 3},
+			{4, 5, 6},
+			{7, 8, 0}}},
+		Size: size,
+	}
 
 	// Optimal move count 25
 	// DLULURDRULDDLUURDRDLLURRD
@@ -100,22 +100,46 @@ func NewPuzzle(size int) Puzzle {
 	// 		{7, 8, 0}}},
 	// 	Size: size,
 	// }
+	// 4  1  3
+	// 0  2  6
+	// 7  5  8
+	// 	0  1  2  3
+	// 	5  6  7  4
+	// 	9 10 11  8
+	//    13 14 15 12
+
+	// puzzle := Puzzle{
+	// 	StartBoard: Board{Tiles: [][]int{
+	// 		{1, 2, 3, 4, 5},
+	// 		{12, 6, 8, 9, 10},
+	// 		{0, 7, 13, 19, 14},
+	// 		{11, 16, 17, 18, 15},
+	// 		{21, 22, 23, 24, 20}},
+	// 		PreviousMove: ""},
+	// 	GoalBoard: Board{Tiles: [][]int{
+	// 		{1, 2, 3, 4, 5},
+	// 		{6, 7, 8, 9, 10},
+	// 		{11, 12, 13, 14, 15},
+	// 		{16, 17, 18, 19, 20},
+	// 		{21, 22, 23, 24, 25}}},
+	// 	Size: size,
+	// }
 
 	// 15 moves
-	puzzle := Puzzle{
-		StartBoard: Board{Tiles: [][]int{
-			{5, 1, 7, 3},
-			{9, 2, 11, 4},
-			{13, 6, 15, 8},
-			{0, 10, 14, 12}},
-			PreviousMove: ""},
-		GoalBoard: Board{Tiles: [][]int{
-			{1, 2, 3, 4},
-			{5, 6, 7, 8},
-			{9, 10, 11, 12},
-			{13, 14, 15, 0}}},
-		Size: size,
-	}
+	// puzzle := Puzzle{
+	// 	StartBoard: Board{Tiles: [][]int{
+	// 		{5, 1, 7, 3},
+	// 		{9, 2, 11, 4},
+	// 		{13, 6, 15, 8},
+	// 		{0, 10, 14, 12}},
+	// 		PreviousMove: ""},
+	// 	GoalBoard: Board{Tiles: [][]int{
+	// 		{1, 2, 3, 4},
+	// 		{5, 6, 7, 8},
+	// 		{9, 10, 11, 12},
+	// 		{13, 14, 15, 0}}},
+	// 	Size: size,
+	// }
 
 	// 26 inversions, solvable
 	// inversions: 4 + 0 + 4 + 1  +  4 + 0 + 4 + 0  + 4 + 0 + 4 + 0  +  0 + 0 + 1 + 0
